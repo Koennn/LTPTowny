@@ -1,0 +1,15 @@
+main: me.koenn.LTPT.LTPTowny
+name: LTPTowny
+version: 1.0
+author: Koenn
+
+commands:
+  towny:
+    usage: /towny <command>
+    description: General towny command;
+  town:
+    usage: /town <command>
+    description: General towny command;
+  t:
+    usage: /t<command>
+    description: General towny command;

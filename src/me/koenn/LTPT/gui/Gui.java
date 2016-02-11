@@ -16,6 +16,7 @@ public abstract class Gui {
     private ArrayList<Option> options = new ArrayList<>();
     private Inventory gui;
     private TownyPlayer player;
+
     public Gui(TownyPlayer player, String guiName) {
         this.player = player;
         this.gui = Bukkit.createInventory(null, 18, guiName);

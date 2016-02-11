@@ -11,6 +11,7 @@ public class TownInvite {
     private Town town;
     private TownyPlayer invitedPlayer;
     private TownyPlayer invitedBy;
+
     public TownInvite(Town town, TownyPlayer invitedPlayer, TownyPlayer invitedBy) {
         this.town = town;
         this.invitedPlayer = invitedPlayer;

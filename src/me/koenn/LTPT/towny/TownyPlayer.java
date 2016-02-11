@@ -25,10 +25,6 @@ public class TownyPlayer {
         this.town = null;
     }
 
-    public void addInvite(TownInvite invite){
-        this.getTownInvites().add(invite);
-    }
-
     public static TownyPlayer getPlayer(Player player) {
         if (players.containsKey(player)) {
             return players.get(player);
@@ -36,6 +32,10 @@ public class TownyPlayer {
             players.put(player, new TownyPlayer(player));
             return players.get(player);
         }
+    }
+
+    public void addInvite(TownInvite invite) {
+        this.getTownInvites().add(invite);
     }
 
     public void teleportTownHome() {
@@ -58,7 +58,7 @@ public class TownyPlayer {
         return townInvites;
     }
 
-    public boolean isTownLeader(){
+    public boolean isTownLeader() {
         return this.town.getLeader().equals(this);
     }
 

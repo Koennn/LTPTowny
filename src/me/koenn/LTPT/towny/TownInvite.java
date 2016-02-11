@@ -14,7 +14,7 @@ public class TownInvite {
         this.invitedBy = invitedBy;
     }
 
-    public void send(){
+    public void send() {
         String message = Messages.INVITE.replace("{player}", this.invitedBy.getBukkitPlayer().getName()).replace("{town}", this.town.getName());
         this.invitedPlayer.sendMessage(message);
         this.invitedPlayer.addInvite(this);

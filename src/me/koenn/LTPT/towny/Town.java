@@ -1,5 +1,6 @@
 package me.koenn.LTPT.towny;
 
+import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.ChunkUtil;
 import me.koenn.LTPT.util.TownRank;
 import org.bukkit.Location;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Town {
 
     public static ArrayList<Town> towns = new ArrayList<>();
@@ -25,19 +27,20 @@ public class Town {
         this.name = name;
         this.leader = leader;
         this.players.put(leader, TownRank.LEADER);
-        this.land = null;
         this.home = null;
     }
 
     public void claimChunkAt(Location location) throws IllegalArgumentException {
         if (!ChunkUtil.isConnected(this, location.getWorld().getChunkAt(location))) {
-            throw new IllegalArgumentException("Land is not connected");
+            if (!this.land.isEmpty()) {
+                throw new IllegalArgumentException("Land is not connected");
+            }
         }
         this.land.add(new ClaimedChunk(location.getWorld().getChunkAt(location), this));
     }
 
     public void unclaimChunkAt(Location location) throws NullPointerException {
-        ClaimedChunk chunk = ClaimedChunk.getClaimedChunk(location);
+        ClaimedChunk chunk = ChunkUtil.getClaimedChunk(location);
         if (chunk != null) {
             ClaimedChunk.claimedChunks.remove(chunk);
             this.getLand().remove(chunk);
@@ -62,6 +65,13 @@ public class Town {
 
     public void setHome(Location home) {
         this.home = home;
+    }
+
+    public void removePlayer(TownyPlayer player) {
+        this.players.remove(player);
+        for (TownyPlayer p : this.players.keySet()) {
+            p.sendMessage(Messages.LEFT.replace("{player}", player.getBukkitPlayer().getName()));
+        }
     }
 
     public void setRank(TownyPlayer player, TownRank rank) {

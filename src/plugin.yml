@@ -5,11 +5,11 @@ author: Koenn
 
 commands:
   towny:
-    usage: /towny <command>
+    usage: /towny <subcommand>
     description: General towny command;
   town:
-    usage: /town <command>
+    usage: /town <subcommand>
     description: General towny command;
   t:
-    usage: /t<command>
+    usage: /t<subcommand>
     description: General towny command;

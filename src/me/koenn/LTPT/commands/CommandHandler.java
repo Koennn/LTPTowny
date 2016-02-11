@@ -1,9 +1,8 @@
 package me.koenn.LTPT.commands;
 
-import me.koenn.LTPT.commands.commands.CreateCommand;
-import me.koenn.LTPT.commands.commands.HomeCommand;
-import me.koenn.LTPT.commands.commands.SethomeCommand;
-import me.koenn.LTPT.gui.TownGui;
+import me.koenn.LTPT.commands.commands.*;
+import me.koenn.LTPT.gui.Gui;
+import me.koenn.LTPT.gui.InfoGui;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.TownyPlayer;
 import me.koenn.LTPT.util.Logger;
@@ -28,13 +27,19 @@ public class CommandHandler implements CommandExecutor {
         }
         TownyPlayer player = TownyPlayer.getPlayer((Player) sender);
         if (args.length == 0) {
-            TownGui gui = new TownGui(player);
+            if (!player.hasTown()) {
+                player.sendMessage(Messages.NO_TOWN);
+                return true;
+            }
+            InfoGui gui = new InfoGui(player, player.getTown());
+            Gui.registerGui(gui);
             gui.open();
+            return true;
         }
         for (ITownyCommand townyCommand : commands) {
             if (townyCommand.getCommand().equalsIgnoreCase(args[0])) {
                 if (!townyCommand.execute(player, args)) {
-                    player.sendMessage(Messages.PREFIX_CHAT + ChatColor.GRAY + townyCommand.getUsage());
+                    player.sendMessage(ChatColor.GRAY + townyCommand.getUsage());
                 }
                 return true;
             }
@@ -47,7 +52,11 @@ public class CommandHandler implements CommandExecutor {
         this.register(new CreateCommand());
         this.register(new SethomeCommand());
         this.register(new HomeCommand());
-        Logger.info("Loaded " + commandsAmount + " commands");
+        this.register(new ClaimCommand());
+        this.register(new LeaveCommand());
+        this.register(new AcceptCommand());
+        this.register(new InviteCommand());
+        Logger.info("Loaded " + commandsAmount + " commands.");
     }
 
     private void register(ITownyCommand command) {

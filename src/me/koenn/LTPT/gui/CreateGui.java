@@ -1,22 +1,26 @@
 package me.koenn.LTPT.gui;
 
+import me.koenn.LTPT.towny.Town;
 import me.koenn.LTPT.towny.TownyPlayer;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class TownGui extends Gui {
+public class CreateGui extends Gui {
 
+    private Town town;
 
-    public TownGui(TownyPlayer player) {
-        super(player, "Town Info");
+    public CreateGui(TownyPlayer player, Town town) {
+        super(player, "Create Town");
+        this.town = town;
     }
 
     @Override
     public void click(InventoryClickEvent e) {
         e.setCancelled(true);
+
     }
 
     @Override
     public void open() {
-        super.getPlayer().getBukkitPlayer().openInventory(super.getGui());
+
     }
 }

@@ -1,7 +1,6 @@
 package me.koenn.LTPT.towny;
 
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.ArrayList;
@@ -26,29 +25,7 @@ public class ClaimedChunk {
         claimedChunks.add(this);
     }
 
-    public static ClaimedChunk getClaimedChunk(Location location) {
-        Chunk chunk = location.getWorld().getChunkAt(location);
-        for (ClaimedChunk claimedChunk : claimedChunks) {
-            if (claimedChunk.getX() == chunk.getX() && claimedChunk.getZ() == chunk.getZ()) {
-                return claimedChunk;
-            }
-        }
-        return null;
-    }
-
-    public static boolean checkPerms(TownyPlayer player, Location location) {
-        Chunk chunk = location.getWorld().getChunkAt(location);
-        for (ClaimedChunk claimedChunk : claimedChunks) {
-            if (chunk.getX() == claimedChunk.getX() && chunk.getZ() == claimedChunk.getZ()) {
-                if (!claimedChunk.getTown().getPlayers().containsKey(player)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public Chunk getChunk() {
+    public Chunk getBukkitChunk() {
         return chunk;
     }
 

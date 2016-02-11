@@ -1,6 +1,7 @@
 package me.koenn.LTPT.towny;
 
 import me.koenn.LTPT.references.Messages;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -39,19 +40,27 @@ public class TownyPlayer {
     }
 
     public void teleportTownHome() {
-        if (this.hasTown()) {
+        if (!this.hasTown()) {
             this.sendMessage(Messages.NO_TOWN);
             return;
         }
         try {
             this.getBukkitPlayer().teleport(this.getTown().getHome());
-        } catch (IllegalArgumentException ex) {
+        } catch (NullPointerException ex) {
             this.sendMessage(Messages.NO_HOME);
         }
     }
 
     public void sendMessage(String message) {
         this.getBukkitPlayer().sendMessage(translateAlternateColorCodes('&', Messages.PREFIX_CHAT + message));
+    }
+
+    public void sendEmptyMessage(String message) {
+        this.getBukkitPlayer().sendMessage(translateAlternateColorCodes('&', message));
+    }
+
+    public Location getLocation() {
+        return this.player.getLocation();
     }
 
     public List<TownInvite> getTownInvites() {
@@ -63,7 +72,7 @@ public class TownyPlayer {
     }
 
     public boolean hasTown() {
-        return this.town != null;
+        return town != null;
     }
 
     public Player getBukkitPlayer() {

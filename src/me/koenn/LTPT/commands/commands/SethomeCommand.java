@@ -3,6 +3,7 @@ package me.koenn.LTPT.commands.commands;
 import me.koenn.LTPT.commands.ITownyCommand;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.TownyPlayer;
+import me.koenn.LTPT.util.ChunkUtil;
 
 public class SethomeCommand implements ITownyCommand {
 
@@ -24,6 +25,14 @@ public class SethomeCommand implements ITownyCommand {
         }
         if (!player.isTownLeader()) {
             player.sendMessage(Messages.NO_PERMS);
+            return true;
+        }
+        if (!ChunkUtil.isClaimed(player.getLocation())) {
+            player.sendMessage(Messages.ONLY_INSIDE);
+            return true;
+        }
+        if (!ChunkUtil.checkPerms(player, player.getBukkitPlayer().getLocation())) {
+            player.sendMessage(Messages.NO_DO_PERM);
             return true;
         }
         player.getTown().setHome(player.getBukkitPlayer().getLocation());

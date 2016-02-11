@@ -28,7 +28,16 @@ public class CreateCommand implements ITownyCommand {
             player.sendMessage(Messages.HAS_TOWN);
             return true;
         }
-        TownUtil.registerTown(new Town(townName, player));
+        for (Town t : Town.towns) {
+            if (t.getName().equals(townName)) {
+                player.sendMessage(Messages.TOWN_ALREADY_EXISTS);
+                return true;
+            }
+        }
+        Town town = new Town(townName, player);
+        TownUtil.registerTown(town);
+        player.setTown(town);
+        player.sendMessage(Messages.CREATED.replace("{town}", town.getName()));
         return true;
     }
 }

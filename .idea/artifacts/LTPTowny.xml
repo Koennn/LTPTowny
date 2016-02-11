@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LTPTowny">
+    <output-path>$USER_HOME$/Desktop/LTP</output-path>
+    <root id="archive" name="LTPTowny.jar">
+      <element id="module-output" name="LTPTowny" />
+    </root>
+  </artifact>
+</component>

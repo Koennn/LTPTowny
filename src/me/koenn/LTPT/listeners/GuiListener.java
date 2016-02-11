@@ -21,8 +21,13 @@ public class GuiListener implements Listener {
             return;
         }
         TownyPlayer player = TownyPlayer.getPlayer((Player) e.getWhoClicked());
-        if (e.getClickedInventory().getName().equals("Town Info")) {
-            Gui.guis.stream().filter(gui -> gui.getPlayer().equals(player)).forEach(gui -> gui.click(e));
+        String name = e.getInventory().getName();
+        if (name.contains("Town Info")) {
+            e.setCancelled(true);
+            Gui gui = Gui.getOpenGui(player);
+            if (gui != null) {
+                gui.click(e);
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 package me.koenn.LTPT.util;
 
-import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.ClaimedChunk;
 import me.koenn.LTPT.towny.Town;
 import me.koenn.LTPT.towny.TownyPlayer;
@@ -40,12 +39,6 @@ public class TownUtil {
     }
 
     public static void registerTown(Town town) {
-        for (Town t : Town.towns) {
-            if (t.getName().equals(town.getName())) {
-                town.getLeader().sendMessage(Messages.TOWN_ALREADY_EXISTS);
-                return;
-            }
-        }
         Town.towns.add(town);
         town.getLeader().setTown(town);
         Logger.info("Player \'" + town.getLeader().getBukkitPlayer().getName() + "\' registered a new town called \'" + town.getName() + "\'");

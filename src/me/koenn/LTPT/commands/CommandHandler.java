@@ -56,6 +56,7 @@ public class CommandHandler implements CommandExecutor {
         this.register(new LeaveCommand());
         this.register(new AcceptCommand());
         this.register(new InviteCommand());
+        this.register(new RemoveCommand());
         Logger.info("Loaded " + commandsAmount + " commands.");
     }
 

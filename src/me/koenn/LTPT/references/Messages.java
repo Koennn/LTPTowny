@@ -14,6 +14,8 @@ public class Messages {
 
     public static final String TOWN_ALREADY_EXISTS = "&7A town already exists with this name.";
     public static final String CREATED = "&7Town &e{town} &7created!";
+    public static final String REMOVED = "&7Your town leader deleted the town!";
+    public static final String REMOVED_SUCCES = "&7You deleted your town.";
 
     public static final String NO_HOME = "&7Your town home is not set.";
     public static final String HOME_SET = "&7Town home set!";

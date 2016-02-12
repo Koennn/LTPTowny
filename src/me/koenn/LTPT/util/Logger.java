@@ -11,7 +11,7 @@ public class Logger {
     }
 
     public static void debug(String message) {
-        if (LTPTowny.debug) {
+        if (LTPTowny.debug_mode) {
             String prefix = String.format("[%s] [DEBUG] ", LTPTowny.getPlugin().getName());
             Bukkit.getLogger().info(prefix + message);
         }

@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class LTPTowny extends JavaPlugin {
 
-    public static final boolean debug = true;
+    public static final boolean debug_mode = true;
     public static Plugin plugin;
 
     public static Plugin getPlugin() {
@@ -20,6 +20,9 @@ public class LTPTowny extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         Logger.info("All credits for this plugin go to Koenn");
+        if (debug_mode) {
+            Logger.debug("Loading plugin in debug mode!");
+        }
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new BlockBreakListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);

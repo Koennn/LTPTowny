@@ -41,6 +41,13 @@ public class TownUtil {
     public static void registerTown(Town town) {
         Town.towns.add(town);
         town.getLeader().setTown(town);
-        Logger.info("Player \'" + town.getLeader().getBukkitPlayer().getName() + "\' registered a new town called \'" + town.getName() + "\'");
+        Logger.debug("Player \'" + town.getLeader().getBukkitPlayer().getName() + "\' registered a new town with id \'" + town.toString().split("@")[1] + "\'");
+    }
+
+    public static void unRegisterTown(Town town) {
+        Town.towns.remove(town);
+        town.getPlayers().clear();
+        town.getLand().clear();
+        Logger.debug("Player \'" + town.getLeader().getBukkitPlayer().getName() + "\' unregistered his town with id \'" + town.toString().split("@")[1] + "\'");
     }
 }

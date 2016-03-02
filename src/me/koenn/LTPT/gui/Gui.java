@@ -1,6 +1,6 @@
 package me.koenn.LTPT.gui;
 
-import me.koenn.LTPT.towny.TownyPlayer;
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.util.Logger;
 import me.koenn.LTPT.util.Option;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public abstract class Gui {
 
     public Gui(TownyPlayer player, String guiName) {
         this.player = player;
-        this.gui = Bukkit.createInventory(null, 18, guiName);
+        this.gui = Bukkit.createInventory(null, 9, guiName);
     }
 
     public static void registerGui(Gui gui) {
@@ -27,7 +27,7 @@ public abstract class Gui {
         Logger.debug("Registered new gui '" + gui.toString().split("@")[1] + "'");
     }
 
-    public static Gui getOpenGui(TownyPlayer player) {
+    public static Gui getOpenGui(Object player) {
         for (Gui gui : guis) {
             if (gui.getPlayer().equals(player)) {
                 return gui;
@@ -43,7 +43,12 @@ public abstract class Gui {
 
     public void click(InventoryClickEvent e) {
         ItemStack item = e.getCurrentItem();
-        this.options.stream().filter(option -> option.getOption().getType().equals(item.getType())).forEach(me.koenn.LTPT.util.Option::run);
+        this.options.stream().filter(option -> option.getOption().getType().equals(item.getType())).forEach(option -> {
+            if (option != null) {
+                option.run();
+                this.player.getBukkitPlayer().closeInventory();
+            }
+        });
     }
 
     public abstract void open();

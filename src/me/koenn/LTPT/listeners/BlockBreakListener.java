@@ -1,7 +1,7 @@
 package me.koenn.LTPT.listeners;
 
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
-import me.koenn.LTPT.towny.TownyPlayer;
 import me.koenn.LTPT.util.ChunkUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

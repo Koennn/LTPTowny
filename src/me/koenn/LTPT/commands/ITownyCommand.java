@@ -1,6 +1,6 @@
 package me.koenn.LTPT.commands;
 
-import me.koenn.LTPT.towny.TownyPlayer;
+import me.koenn.LTPT.player.TownyPlayer;
 
 public interface ITownyCommand {
 

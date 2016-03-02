@@ -1,8 +1,11 @@
 package me.koenn.LTPT.towny;
 
+import me.koenn.LTPT.config.ConfigManager;
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.ChunkUtil;
 import me.koenn.LTPT.util.TownRank;
+import me.koenn.LTPT.util.TownUtil;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -12,13 +15,14 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class Town {
 
-    public static ArrayList<Town> towns = new ArrayList<>();
+    private static ArrayList<Town> towns = new ArrayList<>();
 
     private String name;
     private List<ClaimedChunk> land = new ArrayList<>();
     private HashMap<TownyPlayer, TownRank> players = new HashMap<>();
     private TownyPlayer leader;
     private Location home;
+    private int maxLand;
 
     public Town(String name, TownyPlayer leader) throws IllegalArgumentException {
         if (leader.hasTown()) {
@@ -27,16 +31,25 @@ public class Town {
         this.name = name;
         this.leader = leader;
         this.players.put(leader, TownRank.LEADER);
+        this.maxLand = this.players.size() * 4;
         this.home = null;
     }
 
+    public static ArrayList<Town> getAllRegisteredTowns() {
+        return towns;
+    }
+
     public void claimChunkAt(Location location) throws IllegalArgumentException {
+        if (this.maxLand == this.land.size()) {
+            throw new IndexOutOfBoundsException("You can not claim more land");
+        }
         if (!ChunkUtil.isConnected(this, location.getWorld().getChunkAt(location))) {
             if (!this.land.isEmpty()) {
                 throw new IllegalArgumentException("Land is not connected");
             }
         }
         this.land.add(new ClaimedChunk(location.getWorld().getChunkAt(location), this));
+        TownUtil.saveAllTownsToConfig();
     }
 
     public void unclaimChunkAt(Location location) throws NullPointerException {
@@ -47,6 +60,7 @@ public class Town {
         } else {
             throw new NullPointerException("No claimed chunk at given location");
         }
+        TownUtil.saveAllTownsToConfig();
     }
 
     public void addPlayer(TownyPlayer player) throws IllegalArgumentException {
@@ -54,6 +68,8 @@ public class Town {
             throw new IllegalArgumentException("Player already has a town");
         }
         this.players.put(player, TownRank.MEMBER);
+        this.maxLand = this.players.size() * 4;
+        TownUtil.saveAllTownsToConfig();
     }
 
     public Location getHome() throws NullPointerException {
@@ -65,6 +81,22 @@ public class Town {
 
     public void setHome(Location home) {
         this.home = home;
+        TownUtil.saveAllTownsToConfig();
+    }
+
+    public void removeTown() {
+        for (TownyPlayer townyPlayer : this.getPlayers().keySet()) {
+            if (!townyPlayer.isTownLeader()) {
+                townyPlayer.sendMessage(Messages.REMOVED);
+            } else {
+                townyPlayer.sendMessage(Messages.REMOVED_SUCCES);
+            }
+            this.removePlayer(townyPlayer);
+            townyPlayer.setTown(null);
+        }
+        this.land.forEach(me.koenn.LTPT.towny.ClaimedChunk::remove);
+        ConfigManager.deleteSection(this.name);
+        TownUtil.unRegisterTown(this);
     }
 
     public void removePlayer(TownyPlayer player) {
@@ -72,6 +104,12 @@ public class Town {
         for (TownyPlayer p : this.players.keySet()) {
             p.sendMessage(Messages.LEFT.replace("{player}", player.getBukkitPlayer().getName()));
         }
+        this.maxLand = this.players.size() * 4;
+        TownUtil.saveAllTownsToConfig();
+    }
+
+    public int getMaxLand() {
+        return maxLand;
     }
 
     public void setRank(TownyPlayer player, TownRank rank) {
@@ -86,8 +124,16 @@ public class Town {
         return land;
     }
 
+    public void setLand(List<ClaimedChunk> land) {
+        this.land = land;
+    }
+
     public HashMap<TownyPlayer, TownRank> getPlayers() {
         return players;
+    }
+
+    public void setPlayers(HashMap<TownyPlayer, TownRank> players) {
+        this.players = players;
     }
 
     public TownyPlayer getLeader() {
@@ -99,6 +145,7 @@ public class Town {
             throw new IllegalArgumentException("Player already is town leader");
         }
         this.leader = leader;
+        TownUtil.saveAllTownsToConfig();
     }
 
     public String getName() {

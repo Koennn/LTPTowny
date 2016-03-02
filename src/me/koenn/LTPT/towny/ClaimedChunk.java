@@ -16,7 +16,7 @@ public class ClaimedChunk {
 
     public ClaimedChunk(Chunk chunk, Town town) throws IllegalArgumentException {
         if (chunk.getWorld().getEnvironment() != World.Environment.NORMAL) {
-            throw new IllegalArgumentException("You cannot claim in the nether");
+            throw new IllegalArgumentException("You can only claim in the overworld");
         }
         this.chunk = chunk;
         this.town = town;
@@ -26,7 +26,11 @@ public class ClaimedChunk {
     }
 
     public Chunk getBukkitChunk() {
-        return chunk;
+        return this.chunk;
+    }
+
+    public void remove() {
+        claimedChunks.remove(this);
     }
 
     public int getX() {

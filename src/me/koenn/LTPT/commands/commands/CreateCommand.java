@@ -1,9 +1,11 @@
 package me.koenn.LTPT.commands.commands;
 
 import me.koenn.LTPT.commands.ITownyCommand;
+import me.koenn.LTPT.gui.Gui;
+import me.koenn.LTPT.gui.InfoGui;
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.Town;
-import me.koenn.LTPT.towny.TownyPlayer;
 import me.koenn.LTPT.util.TownUtil;
 
 public class CreateCommand implements ITownyCommand {
@@ -28,7 +30,7 @@ public class CreateCommand implements ITownyCommand {
             player.sendMessage(Messages.HAS_TOWN);
             return true;
         }
-        for (Town t : Town.towns) {
+        for (Town t : Town.getAllRegisteredTowns()) {
             if (t.getName().equals(townName)) {
                 player.sendMessage(Messages.TOWN_ALREADY_EXISTS);
                 return true;
@@ -38,6 +40,9 @@ public class CreateCommand implements ITownyCommand {
         TownUtil.registerTown(town);
         player.setTown(town);
         player.sendMessage(Messages.CREATED.replace("{town}", town.getName()));
+        InfoGui gui = new InfoGui(player, town);
+        Gui.registerGui(gui);
+        gui.open();
         return true;
     }
 }

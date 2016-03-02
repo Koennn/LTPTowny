@@ -1,5 +1,6 @@
 package me.koenn.LTPT.towny;
 
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.Logger;
 
@@ -23,7 +24,7 @@ public class TownInvite {
         Logger.debug("Registered new invite '" + invite.toString().split("@")[1] + "'");
     }
 
-    public static TownInvite getInvite(TownyPlayer player) {
+    public static TownInvite getInvite(Object player) {
         for (TownInvite invite : invites) {
             if (invite.invitedPlayer.equals(player)) {
                 return invite;

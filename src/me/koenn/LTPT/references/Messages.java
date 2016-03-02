@@ -23,10 +23,14 @@ public class Messages {
     public static final String TELEPORTED_HOME = "&7Teleported to your town home";
     public static final String ONLY_INSIDE = "&7You can only set your home in your own land.";
 
+    public static final String ONLY_OVERWORLD = "&7You can only claim in the overworld.";
     public static final String ALREADY_CLAIMED = "&7This chunk is already claimed by &e{town}&7.";
     public static final String CLAIMED = "&7You claimed chunk &e{chunk}&7!";
+    public static final String UNCLAIMED = "&7You unclaimed chunk &e{chunk}&7!";
     public static final String NOT_CONNECTED = "&7You can only claim chunks connecting to your town.";
-    public static final String ENTERED_CHUNK = "&7>{color}{town}&7<";
+    public static final String CLAIM_LIMIT = "&7You can only claim &e{amount} &7chunks.";
+    public static final String NOT_CLAIMED = "&7This chunk is not claimed by your town.";
+    public static final String ENTERED_CHUNK = "&7You entered {color}{town}";
 
     public static final String LEADER = "&7Use /town remove to delete your town.";
     public static final String LEFT = "&7Player &e{player} &7left your town.";

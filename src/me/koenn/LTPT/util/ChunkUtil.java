@@ -2,7 +2,6 @@ package me.koenn.LTPT.util;
 
 import me.koenn.LTPT.towny.ClaimedChunk;
 import me.koenn.LTPT.towny.Town;
-import me.koenn.LTPT.towny.TownyPlayer;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
@@ -28,7 +27,7 @@ public class ChunkUtil {
         return null;
     }
 
-    public static boolean checkPerms(TownyPlayer player, Location location) {
+    public static boolean checkPerms(Object player, Location location) {
         Chunk chunk = location.getWorld().getChunkAt(location);
         for (ClaimedChunk claimedChunk : ClaimedChunk.claimedChunks) {
             if (chunk.getX() == claimedChunk.getX() && chunk.getZ() == claimedChunk.getZ()) {

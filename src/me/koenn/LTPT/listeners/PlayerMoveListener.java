@@ -1,9 +1,9 @@
 package me.koenn.LTPT.listeners;
 
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.ClaimedChunk;
 import me.koenn.LTPT.towny.Town;
-import me.koenn.LTPT.towny.TownyPlayer;
 import me.koenn.LTPT.util.ChunkUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Chunk;

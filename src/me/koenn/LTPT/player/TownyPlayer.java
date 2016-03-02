@@ -1,38 +1,46 @@
-package me.koenn.LTPT.towny;
+package me.koenn.LTPT.player;
 
+import me.koenn.LTPT.config.ConfigManager;
 import me.koenn.LTPT.references.Messages;
+import me.koenn.LTPT.towny.Town;
+import me.koenn.LTPT.towny.TownInvite;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import static net.md_5.bungee.api.ChatColor.translateAlternateColorCodes;
 
+@SuppressWarnings("unused")
 public class TownyPlayer {
 
-    private static HashMap<Player, TownyPlayer> players = new HashMap<>();
-    private Player player;
+    private static HashMap<UUID, TownyPlayer> players = new HashMap<>();
+    private UUID player;
     private Town town;
     private List<TownInvite> townInvites = new ArrayList<>();
 
-    public TownyPlayer(Player player) throws IllegalArgumentException {
-        if (players.containsKey(player)) {
-            throw new IllegalArgumentException("Player can only be created once");
-        }
+    public TownyPlayer(UUID player) {
         players.put(player, this);
         this.player = player;
         this.town = null;
+        this.saveToConfig();
     }
 
     public static TownyPlayer getPlayer(Player player) {
-        if (players.containsKey(player)) {
-            return players.get(player);
-        } else {
-            players.put(player, new TownyPlayer(player));
-            return players.get(player);
+        for (UUID townyPlayer : players.keySet()) {
+            if (Bukkit.getPlayer(townyPlayer).getUniqueId().equals(player.getUniqueId())) {
+                return players.get(townyPlayer);
+            }
         }
+        return null;
+    }
+
+    public static HashMap<UUID, TownyPlayer> getAllRegisteredPlayers() {
+        return players;
     }
 
     public void addInvite(TownInvite invite) {
@@ -51,6 +59,16 @@ public class TownyPlayer {
         }
     }
 
+    public void leaveTown() {
+        if (this.isTownLeader()) {
+            this.sendMessage(Messages.LEADER);
+            return;
+        }
+        this.town.removePlayer(this);
+        this.setTown(null);
+        this.sendMessage(Messages.YOU_LEFT);
+    }
+
     public void sendMessage(String message) {
         this.getBukkitPlayer().sendMessage(translateAlternateColorCodes('&', Messages.PREFIX_CHAT + message));
     }
@@ -60,7 +78,7 @@ public class TownyPlayer {
     }
 
     public Location getLocation() {
-        return this.player.getLocation();
+        return this.getBukkitPlayer().getLocation();
     }
 
     public List<TownInvite> getTownInvites() {
@@ -76,6 +94,10 @@ public class TownyPlayer {
     }
 
     public Player getBukkitPlayer() {
+        Player player = Bukkit.getPlayer(this.player);
+        if (player == null) {
+            throw new NullPointerException("Player doesn't exist");
+        }
         return player;
     }
 
@@ -85,5 +107,14 @@ public class TownyPlayer {
 
     public void setTown(Town town) {
         this.town = town;
+    }
+
+    public void saveToConfig() {
+        String uuid = this.player.toString();
+        String town = "-";
+        if (this.town != null) {
+            town = this.town.getName();
+        }
+        ConfigManager.setString(town, "town", "players", uuid);
     }
 }

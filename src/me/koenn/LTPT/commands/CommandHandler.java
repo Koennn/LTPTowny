@@ -3,8 +3,8 @@ package me.koenn.LTPT.commands;
 import me.koenn.LTPT.commands.commands.*;
 import me.koenn.LTPT.gui.Gui;
 import me.koenn.LTPT.gui.InfoGui;
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
-import me.koenn.LTPT.towny.TownyPlayer;
 import me.koenn.LTPT.util.Logger;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
@@ -57,6 +57,7 @@ public class CommandHandler implements CommandExecutor {
         this.register(new AcceptCommand());
         this.register(new InviteCommand());
         this.register(new RemoveCommand());
+        this.register(new UnclaimCommand());
         Logger.info("Loaded " + commandsAmount + " commands.");
     }
 

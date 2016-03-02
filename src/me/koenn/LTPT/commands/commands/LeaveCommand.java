@@ -1,9 +1,8 @@
 package me.koenn.LTPT.commands.commands;
 
 import me.koenn.LTPT.commands.ITownyCommand;
+import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
-import me.koenn.LTPT.towny.Town;
-import me.koenn.LTPT.towny.TownyPlayer;
 
 public class LeaveCommand implements ITownyCommand {
 
@@ -27,10 +26,7 @@ public class LeaveCommand implements ITownyCommand {
             player.sendMessage(Messages.LEADER);
             return true;
         }
-        Town town = player.getTown();
-        player.setTown(null);
-        town.removePlayer(player);
-        player.sendMessage(Messages.YOU_LEFT.replace("{town}", town.getName()));
+        player.leaveTown();
         return true;
     }
 }

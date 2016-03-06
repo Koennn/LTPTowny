@@ -17,9 +17,14 @@ public abstract class Gui {
     private Inventory gui;
     private TownyPlayer player;
 
-    public Gui(TownyPlayer player, String guiName) {
+    protected Gui(TownyPlayer player, String guiName) {
         this.player = player;
         this.gui = Bukkit.createInventory(null, 9, guiName);
+    }
+
+    protected Gui(TownyPlayer player, String guiName, int size) {
+        this.player = player;
+        this.gui = Bukkit.createInventory(null, size, guiName);
     }
 
     public static void registerGui(Gui gui) {
@@ -27,9 +32,9 @@ public abstract class Gui {
         Logger.debug("Registered new gui '" + gui.toString().split("@")[1] + "'");
     }
 
-    public static Gui getOpenGui(Object player) {
+    public static Gui getOpenGui(TownyPlayer player) {
         for (Gui gui : guis) {
-            if (gui.getPlayer().equals(player)) {
+            if (gui.getPlayer().getBukkitPlayer().getUniqueId().equals(player.getBukkitPlayer().getUniqueId())) {
                 return gui;
             }
         }
@@ -43,10 +48,11 @@ public abstract class Gui {
 
     public void click(InventoryClickEvent e) {
         ItemStack item = e.getCurrentItem();
-        this.options.stream().filter(option -> option.getOption().getType().equals(item.getType())).forEach(option -> {
-            if (option != null) {
-                option.run();
-                this.player.getBukkitPlayer().closeInventory();
+        this.options.stream().filter(option -> option.getOption().getType().equals(item.getType()) && option.getOption().getItemMeta().getDisplayName().equals(item.getItemMeta().getDisplayName())).forEach(option -> {
+            if (option != Option.placeHolderOption) {
+                if (option.run()) {
+                    this.player.getBukkitPlayer().closeInventory();
+                }
             }
         });
     }

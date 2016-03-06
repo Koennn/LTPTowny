@@ -1,8 +1,8 @@
 package me.koenn.LTPT.listeners;
 
+import me.koenn.LTPT.chunk.ClaimedChunk;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
-import me.koenn.LTPT.towny.ClaimedChunk;
 import me.koenn.LTPT.towny.Town;
 import me.koenn.LTPT.util.ChunkUtil;
 import net.md_5.bungee.api.ChatColor;
@@ -27,7 +27,10 @@ public class PlayerMoveListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer());
+        TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer().getUniqueId());
+        if (player == null) {
+            return;
+        }
         Chunk lastChunk;
         if (lastLocation.containsKey(player)) {
             lastChunk = lastLocation.get(player);

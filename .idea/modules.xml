@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LTPTowny.iml" filepath="$PROJECT_DIR$/LTPTowny.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../VersionControl/VersionControl.iml" filepath="$PROJECT_DIR$/../VersionControl/VersionControl.iml" />
     </modules>
   </component>
 </project>

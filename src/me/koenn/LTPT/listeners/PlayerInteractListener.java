@@ -10,15 +10,25 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteractListener implements Listener {
 
+    @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
-        TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer());
+        TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer().getUniqueId());
+        if (player == null) {
+            return;
+        }
         if (!ChunkUtil.checkPerms(player, e.getClickedBlock().getLocation())) {
             e.setCancelled(true);
             player.sendMessage(Messages.NO_USE_PERM);
+        }
+        if (!ChunkUtil.getClaimedChunk(player.getLocation()).getPermission().isBuild()) {
+            if (!player.isTownLeader()) {
+                e.setCancelled(true);
+                player.sendMessage(Messages.NO_BREAK_PERM);
+            }
         }
     }
 }

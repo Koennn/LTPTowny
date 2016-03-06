@@ -29,7 +29,7 @@ public class InviteCommand implements ITownyCommand {
         }
         TownyPlayer invitedPlayer;
         try {
-            invitedPlayer = TownyPlayer.getPlayer(Bukkit.getPlayer(args[1]));
+            invitedPlayer = TownyPlayer.getPlayer(Bukkit.getPlayer(args[1]).getUniqueId());
         } catch (Exception ex) {
             return false;
         }

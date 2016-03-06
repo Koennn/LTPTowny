@@ -1,11 +1,16 @@
 package me.koenn.LTPT.listeners;
 
+import me.koenn.LTPT.LTPTowny;
 import me.koenn.LTPT.gui.Gui;
+import me.koenn.LTPT.gui.guis.InfoGui;
 import me.koenn.LTPT.player.TownyPlayer;
+import me.koenn.LTPT.references.GuiReferences;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class GuiListener implements Listener {
 
@@ -20,14 +25,27 @@ public class GuiListener implements Listener {
         if (!(e.getWhoClicked() instanceof Player)) {
             return;
         }
-        Object player = TownyPlayer.getPlayer((Player) e.getWhoClicked());
+        TownyPlayer player = TownyPlayer.getPlayer((e.getWhoClicked()).getUniqueId());
         String name = e.getInventory().getName();
-        if (name.contains("Town Info")) {
+        if (name.contains(GuiReferences.INFO_GUI_NAME) || name.startsWith("Plot Info: ")) {
             e.setCancelled(true);
             Gui gui = Gui.getOpenGui(player);
             if (gui != null) {
                 gui.click(e);
             }
+        }
+        if (name.contains(GuiReferences.PLAYER_LIST_NAME) || name.startsWith("Towny Help")) {
+            e.setCancelled(true);
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent e) {
+        if (e.getInventory().getName().contains(GuiReferences.PLAYER_LIST_NAME)) {
+            InfoGui gui = new InfoGui(TownyPlayer.getPlayer(e.getPlayer().getUniqueId()), TownyPlayer.getPlayer(e.getPlayer().getUniqueId()).getTown());
+            Gui.registerGui(gui);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(LTPTowny.getPlugin(), gui::open);
         }
     }
 }

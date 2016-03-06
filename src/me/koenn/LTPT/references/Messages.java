@@ -2,12 +2,20 @@ package me.koenn.LTPT.references;
 
 public class Messages {
 
-    public static final String PREFIX_CHAT = "&9Towny > ";
+    public static final String PREFIX_CHAT = "&9Towny > &7";
+    public static final String CHAT_FORMAT = "&8[{rank}&8] &7{player}: {message}";
+
+    public static final String TOWN_CHAT_FORMAT = "&8[&2{town}&8] &8[{rank}&8] &7{player}: {message}";
+    public static final String TOGGLE_TOWN_CHAT = "&7Turned town chat {on/off}";
 
     public static final String NO_BREAK_PERM = "&7You are not allowed to break blocks in this faction's land!";
     public static final String NO_USE_PERM = "&7You are not allowed to use that in this faction's land!";
     public static final String NO_DO_PERM = "&7You are not allowed to do that in this faction's land!";
     public static final String NO_PERMS = "&7You don't have permission to do this";
+    public static final String TOGGLE_PERM = "&7You turned {perm} {on/off}";
+
+    public static final String NOT_FOR_SALE = "&7This plot is not for sale.";
+    public static final String SET_PRICE = "&7You set the price of this plot to ${price}.";
 
     public static final String HAS_TOWN = "&7You already have a town.";
     public static final String NO_TOWN = "&7You don't have a town.";
@@ -42,4 +50,5 @@ public class Messages {
     public static final String YOU_JOINED = "&7You joined &e{town}&7.";
 
     public static final String UNKNOWN_COMMAND = "&7This command does not exist";
+    public static final String SAVED = "&7Saved all towns!";
 }

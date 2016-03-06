@@ -1,11 +1,13 @@
 package me.koenn.LTPT.player;
 
+import me.koenn.LTPT.chunk.ClaimedChunk;
 import me.koenn.LTPT.config.ConfigManager;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.Town;
 import me.koenn.LTPT.towny.TownInvite;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static net.md_5.bungee.api.ChatColor.translateAlternateColorCodes;
+import static org.bukkit.ChatColor.translateAlternateColorCodes;
 
 @SuppressWarnings("unused")
 public class TownyPlayer {
@@ -22,17 +24,19 @@ public class TownyPlayer {
     private UUID player;
     private Town town;
     private List<TownInvite> townInvites = new ArrayList<>();
+    private boolean townChat;
 
     public TownyPlayer(UUID player) {
         players.put(player, this);
         this.player = player;
         this.town = null;
         this.saveToConfig();
+        this.townChat = false;
     }
 
-    public static TownyPlayer getPlayer(Player player) {
+    public static TownyPlayer getPlayer(UUID player) {
         for (UUID townyPlayer : players.keySet()) {
-            if (Bukkit.getPlayer(townyPlayer).getUniqueId().equals(player.getUniqueId())) {
+            if (townyPlayer.equals(player)) {
                 return players.get(townyPlayer);
             }
         }
@@ -64,17 +68,27 @@ public class TownyPlayer {
             this.sendMessage(Messages.LEADER);
             return;
         }
+        this.sendMessage(Messages.YOU_LEFT.replace("{town}", this.getTown().getName()));
         this.town.removePlayer(this);
         this.setTown(null);
-        this.sendMessage(Messages.YOU_LEFT);
     }
 
     public void sendMessage(String message) {
+        if (!this.isOnline()) {
+            return;
+        }
         this.getBukkitPlayer().sendMessage(translateAlternateColorCodes('&', Messages.PREFIX_CHAT + message));
     }
 
     public void sendEmptyMessage(String message) {
+        if (!this.isOnline()) {
+            return;
+        }
         this.getBukkitPlayer().sendMessage(translateAlternateColorCodes('&', message));
+    }
+
+    public boolean isPlotOwner(ClaimedChunk chunk) {
+        return chunk.getOwner() == this;
     }
 
     public Location getLocation() {
@@ -96,9 +110,29 @@ public class TownyPlayer {
     public Player getBukkitPlayer() {
         Player player = Bukkit.getPlayer(this.player);
         if (player == null) {
+            return null;
+        }
+        return player;
+    }
+
+    public OfflinePlayer getOfflinePlayer() {
+        OfflinePlayer player = Bukkit.getOfflinePlayer(this.player);
+        if (player == null) {
             throw new NullPointerException("Player doesn't exist");
         }
         return player;
+    }
+
+    public boolean isInTownChat() {
+        return townChat;
+    }
+
+    public void setInTownChat(boolean townChat) {
+        this.townChat = townChat;
+    }
+
+    public boolean isOnline() {
+        return Bukkit.getPlayer(this.player) != null;
     }
 
     public Town getTown() {

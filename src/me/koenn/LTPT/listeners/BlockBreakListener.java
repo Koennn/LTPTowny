@@ -9,12 +9,21 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockBreakListener implements Listener {
 
+    @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer());
-        if (!ChunkUtil.checkPerms(player, e.getBlock().getLocation())) {
-            e.setCancelled(true);
-            player.sendMessage(Messages.NO_BREAK_PERM);
+        TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer().getUniqueId());
+        if (player != null) {
+            if (!ChunkUtil.checkPerms(player, e.getBlock().getLocation())) {
+                e.setCancelled(true);
+                player.sendMessage(Messages.NO_BREAK_PERM);
+            }
+            if (!ChunkUtil.getClaimedChunk(player.getLocation()).getPermission().isDestroy()) {
+                if (!player.isTownLeader()) {
+                    e.setCancelled(true);
+                    player.sendMessage(Messages.NO_BREAK_PERM);
+                }
+            }
         }
     }
 }

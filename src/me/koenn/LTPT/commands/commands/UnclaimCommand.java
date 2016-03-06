@@ -1,9 +1,9 @@
 package me.koenn.LTPT.commands.commands;
 
+import me.koenn.LTPT.chunk.ClaimedChunk;
 import me.koenn.LTPT.commands.ITownyCommand;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
-import me.koenn.LTPT.towny.ClaimedChunk;
 import me.koenn.LTPT.util.ChunkUtil;
 
 public class UnclaimCommand implements ITownyCommand {

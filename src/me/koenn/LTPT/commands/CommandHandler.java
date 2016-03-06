@@ -1,12 +1,13 @@
 package me.koenn.LTPT.commands;
 
 import me.koenn.LTPT.commands.commands.*;
+import me.koenn.LTPT.commands.commands.plotcommands.PlotCommand;
 import me.koenn.LTPT.gui.Gui;
-import me.koenn.LTPT.gui.InfoGui;
+import me.koenn.LTPT.gui.guis.InfoGui;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.Logger;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +26,10 @@ public class CommandHandler implements CommandExecutor {
         if (!(sender instanceof Player)) {
             return false;
         }
-        TownyPlayer player = TownyPlayer.getPlayer((Player) sender);
+        TownyPlayer player = TownyPlayer.getPlayer(((Player) sender).getUniqueId());
+        if (player == null) {
+            return false;
+        }
         if (args.length == 0) {
             if (!player.hasTown()) {
                 player.sendMessage(Messages.NO_TOWN);
@@ -58,6 +62,11 @@ public class CommandHandler implements CommandExecutor {
         this.register(new InviteCommand());
         this.register(new RemoveCommand());
         this.register(new UnclaimCommand());
+        this.register(new PlotCommand());
+        this.register(new HelpCommand());
+        this.register(new OverlayCommand());
+        this.register(new ChatCommand());
+        this.register(new SaveCommand());
         Logger.info("Loaded " + commandsAmount + " commands.");
     }
 

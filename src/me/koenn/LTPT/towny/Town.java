@@ -1,10 +1,10 @@
 package me.koenn.LTPT.towny;
 
+import me.koenn.LTPT.chunk.ClaimedChunk;
 import me.koenn.LTPT.config.ConfigManager;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.ChunkUtil;
-import me.koenn.LTPT.util.TownRank;
 import me.koenn.LTPT.util.TownUtil;
 import org.bukkit.Location;
 
@@ -40,6 +40,7 @@ public class Town {
     }
 
     public void claimChunkAt(Location location) throws IllegalArgumentException {
+        this.maxLand = this.players.size() * 4;
         if (this.maxLand == this.land.size()) {
             throw new IndexOutOfBoundsException("You can not claim more land");
         }
@@ -60,6 +61,7 @@ public class Town {
         } else {
             throw new NullPointerException("No claimed chunk at given location");
         }
+        this.maxLand = this.players.size() * 4;
         TownUtil.saveAllTownsToConfig();
     }
 
@@ -67,7 +69,7 @@ public class Town {
         if (player.hasTown()) {
             throw new IllegalArgumentException("Player already has a town");
         }
-        this.players.put(player, TownRank.MEMBER);
+        this.players.put(player, TownRank.RESIDENT);
         this.maxLand = this.players.size() * 4;
         TownUtil.saveAllTownsToConfig();
     }
@@ -91,10 +93,10 @@ public class Town {
             } else {
                 townyPlayer.sendMessage(Messages.REMOVED_SUCCES);
             }
-            this.removePlayer(townyPlayer);
+            this.players.remove(townyPlayer);
             townyPlayer.setTown(null);
         }
-        this.land.forEach(me.koenn.LTPT.towny.ClaimedChunk::remove);
+        this.land.forEach(ClaimedChunk::remove);
         ConfigManager.deleteSection(this.name);
         TownUtil.unRegisterTown(this);
     }

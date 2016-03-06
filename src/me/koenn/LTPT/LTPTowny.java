@@ -33,6 +33,7 @@ public class LTPTowny extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
         Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         CommandHandler commandHandler = new CommandHandler();
         getCommand("towny").setExecutor(commandHandler);
         getCommand("town").setExecutor(commandHandler);

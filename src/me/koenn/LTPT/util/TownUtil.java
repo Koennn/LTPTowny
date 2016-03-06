@@ -1,9 +1,9 @@
 package me.koenn.LTPT.util;
 
+import me.koenn.LTPT.chunk.ClaimedChunk;
 import me.koenn.LTPT.config.ConfigManager;
 import me.koenn.LTPT.config.TownSection;
 import me.koenn.LTPT.player.TownyPlayer;
-import me.koenn.LTPT.towny.ClaimedChunk;
 import me.koenn.LTPT.towny.Town;
 import org.bukkit.Chunk;
 import org.bukkit.Location;

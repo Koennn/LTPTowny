@@ -1,6 +1,7 @@
 package me.koenn.LTPT.commands.commands;
 
 import me.koenn.LTPT.commands.ITownyCommand;
+import me.koenn.LTPT.effects.ChunkEffect;
 import me.koenn.LTPT.listeners.PlayerMoveListener;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
@@ -51,6 +52,7 @@ public class ClaimCommand implements ITownyCommand {
         String chunk = ChunkUtil.getClaimedChunk(player.getLocation()).getX() + ", " + ChunkUtil.getClaimedChunk(player.getLocation()).getZ();
         player.sendMessage(Messages.CLAIMED.replace("{chunk}", chunk));
         PlayerMoveListener.removeLastLocation(player);
+        new ChunkEffect().play(ChunkUtil.getClaimedChunk(player.getLocation()).getBukkitChunk(), (int) Math.round(player.getLocation().getY()));
         return true;
     }
 }

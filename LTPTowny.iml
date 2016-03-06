@@ -7,6 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="spigot_server" level="project" />
+    <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.9-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="EffectLib-4.0" level="project" />
+    <orderEntry type="library" name="PermissionsEx-1.23.3" level="project" />
   </component>
 </module>

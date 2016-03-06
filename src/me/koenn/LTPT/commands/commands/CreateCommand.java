@@ -2,7 +2,7 @@ package me.koenn.LTPT.commands.commands;
 
 import me.koenn.LTPT.commands.ITownyCommand;
 import me.koenn.LTPT.gui.Gui;
-import me.koenn.LTPT.gui.InfoGui;
+import me.koenn.LTPT.gui.guis.InfoGui;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.Town;

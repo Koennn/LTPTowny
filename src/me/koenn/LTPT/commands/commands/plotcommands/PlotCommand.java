@@ -16,6 +16,7 @@ public class PlotCommand implements ITownyCommand {
 
     public static void setup() {
         plotCommands.add(new SetPriceCommand());
+        plotCommands.add(new BuyCommand());
     }
 
     @Override
@@ -30,6 +31,10 @@ public class PlotCommand implements ITownyCommand {
 
     @Override
     public boolean execute(TownyPlayer player, String[] args) {
+        if (!player.hasTown()) {
+            player.sendMessage(Messages.NO_TOWN);
+            return true;
+        }
         if (args.length == 1) {
             showPlotGui(player);
             return true;
@@ -46,15 +51,11 @@ public class PlotCommand implements ITownyCommand {
     }
 
     private void showPlotGui(TownyPlayer player) {
-        if (!player.hasTown()) {
-            player.sendMessage(Messages.NO_TOWN);
-            return;
-        }
         if (!ChunkUtil.checkPerms(player, player.getLocation())) {
             player.sendMessage(Messages.NO_PERMS);
             return;
         }
-        if (!player.isTownLeader()) {
+        if (player.getRankValue() < 2) {
             player.sendMessage(Messages.NO_PERMS);
             return;
         }

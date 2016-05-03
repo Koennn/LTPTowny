@@ -26,14 +26,17 @@ public class ChatListener implements Listener {
         if (!player.isInTownChat()) {
             PermissionUser user = PermissionsEx.getUser(player.getBukkitPlayer());
             String message = Messages.CHAT_FORMAT.replace("{rank}", user.getPrefix().replace("[", "").replace("]", "").replace(" ", ""));
-            message = message.replace("{player}", ChatColor.stripColor(player.getBukkitPlayer().getDisplayName()).replace("~", "")).replace("{message}", e.getMessage());
+            message = message.replace("{player}", ChatColor.stripColor(player.getBukkitPlayer().getDisplayName()).replace("~", "")).replace("{message}", ChatColor.stripColor(translateAlternateColorCodes('&', e.getMessage())));
             for (Player online : Bukkit.getOnlinePlayers()) {
+                if (TownyPlayer.getPlayer(online.getUniqueId()) == null) {
+                    continue;
+                }
                 TownyPlayer.getPlayer(online.getUniqueId()).sendEmptyMessage(translateAlternateColorCodes('&', message));
             }
         } else {
             PermissionUser user = PermissionsEx.getUser(player.getBukkitPlayer());
             String message = Messages.TOWN_CHAT_FORMAT.replace("{rank}", user.getPrefix().replace("[", "").replace("]", "").replace(" ", ""));
-            message = message.replace("{player}", ChatColor.stripColor(player.getBukkitPlayer().getDisplayName()).replace("~", "")).replace("{message}", e.getMessage()).replace("{town}", player.getTown().getName());
+            message = message.replace("{player}", ChatColor.stripColor(player.getBukkitPlayer().getDisplayName()).replace("~", "")).replace("{message}", ChatColor.stripColor(translateAlternateColorCodes('&', e.getMessage()))).replace("{town}", player.getTown().getName());
             for (TownyPlayer online : player.getTown().getPlayers().keySet()) {
                 online.sendEmptyMessage(translateAlternateColorCodes('&', message));
             }

@@ -87,6 +87,13 @@ public class TownyPlayer {
         this.getBukkitPlayer().sendMessage(translateAlternateColorCodes('&', message));
     }
 
+    public int getRankValue() {
+        if (this.town == null) {
+            return 0;
+        }
+        return this.town.getRank(this).getValue();
+    }
+
     public boolean isPlotOwner(ClaimedChunk chunk) {
         return chunk.getOwner() == this;
     }
@@ -105,6 +112,13 @@ public class TownyPlayer {
 
     public boolean hasTown() {
         return town != null;
+    }
+
+    public String getName() {
+        if (this.getOfflinePlayer() == null) {
+            return null;
+        }
+        return this.getOfflinePlayer().getName();
     }
 
     public Player getBukkitPlayer() {

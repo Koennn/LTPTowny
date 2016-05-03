@@ -61,6 +61,36 @@ public class HelpGui extends Gui {
         lore = new ArrayList<>();
         lore.add(ChatColor.YELLOW + "Toggle town chat");
         this.addOption(new AdvancedOption(Material.BOOK_AND_QUILL, "&b&l/t chat", AdvancedOption.placeHolderOption, lore, false));
+
+        lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "See if the plots around");
+        lore.add(ChatColor.YELLOW + "you are claimed or not");
+        this.addOption(new AdvancedOption(Material.REDSTONE, "&b&l/t showplots", AdvancedOption.placeHolderOption, lore, false));
+
+        lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Kick a player from your town");
+        this.addOption(new AdvancedOption(Material.BLAZE_POWDER, "&b&l/t kick", AdvancedOption.placeHolderOption, lore, false));
+
+        lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Set a player's rank");
+        this.addOption(new AdvancedOption(Material.STICK, "&b&l/t setrank", AdvancedOption.placeHolderOption, lore, false));
+
+        lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Leader");
+        lore.add(ChatColor.YELLOW + "Assistant");
+        lore.add(ChatColor.YELLOW + "Sheriff");
+        lore.add(ChatColor.YELLOW + "Helper");
+        lore.add(ChatColor.YELLOW + "Resident");
+        this.addOption(new AdvancedOption(Material.SIGN, "&b&lTown ranks:", AdvancedOption.placeHolderOption, lore, false));
+
+        lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Click to see all plot commands");
+        this.addOption(new AdvancedOption(Material.GRASS, "&b&lPlot commands", () -> {
+            PlotHelpGui gui = new PlotHelpGui(player);
+            Gui.registerGui(gui);
+            Gui.guis.remove(this);
+            gui.open();
+        }, lore, false));
     }
 
     @Override

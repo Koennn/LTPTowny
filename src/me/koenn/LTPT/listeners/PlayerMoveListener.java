@@ -1,6 +1,7 @@
 package me.koenn.LTPT.listeners;
 
 import me.koenn.LTPT.chunk.ClaimedChunk;
+import me.koenn.LTPT.chunk.PlotType;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.Town;
@@ -25,6 +26,7 @@ public class PlayerMoveListener implements Listener {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
         TownyPlayer player = TownyPlayer.getPlayer(e.getPlayer().getUniqueId());
@@ -51,6 +53,20 @@ public class PlayerMoveListener implements Listener {
                 player.sendEmptyMessage(Messages.ENTERED_CHUNK.replace("{color}", ChatColor.DARK_GREEN.toString()).replace("{town}", "Wilderness"));
             }
             return;
+        } else {
+            ClaimedChunk chunk = ChunkUtil.getClaimedChunk(player.getLocation());
+            if (chunk != null) {
+                if (!chunk.getType().equals(PlotType.NORMAL)) {
+                    String type = ChunkUtil.getClaimedChunk(location).getType().toString();
+                    if (chunk.getType().equals(PlotType.FOR_SALE)) {
+                        type = type + " $" + chunk.getPrice();
+                    }
+                    if (chunk.getType().equals(PlotType.SOLD)) {
+                        type = chunk.getOwner().getName();
+                    }
+                    player.sendEmptyMessage(Messages.ENTERED_PLOT.replace("{type}", type));
+                }
+            }
         }
         ClaimedChunk chunk = ChunkUtil.getClaimedChunk(location);
         if (chunk == null) {

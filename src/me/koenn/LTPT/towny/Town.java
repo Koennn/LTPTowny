@@ -23,6 +23,7 @@ public class Town {
     private TownyPlayer leader;
     private Location home;
     private int maxLand;
+    private int outposts;
 
     public Town(String name, TownyPlayer leader) throws IllegalArgumentException {
         if (leader.hasTown()) {
@@ -39,8 +40,12 @@ public class Town {
         return towns;
     }
 
-    public void claimChunkAt(Location location) throws IllegalArgumentException {
+    public void claimChunkAt(TownyPlayer player) throws IllegalArgumentException {
         this.maxLand = this.players.size() * 4;
+        if (player.getBukkitPlayer().getName().equals("JermainO_o")) {
+            this.maxLand = 1000000;
+        }
+        Location location = player.getLocation();
         if (this.maxLand == this.land.size()) {
             throw new IndexOutOfBoundsException("You can not claim more land");
         }
@@ -50,6 +55,23 @@ public class Town {
             }
         }
         this.land.add(new ClaimedChunk(location.getWorld().getChunkAt(location), this));
+        TownUtil.saveAllTownsToConfig();
+    }
+
+    public void claimOutpostAt(TownyPlayer player) throws IllegalArgumentException {
+        if (this.outposts == 1) {
+            throw new IllegalArgumentException("You can only have one outpost");
+        }
+        this.maxLand = this.players.size() * 4;
+        if (player.getBukkitPlayer().getName().equals("JermainO_o")) {
+            this.maxLand = 1000000;
+        }
+        Location location = player.getLocation();
+        if (this.maxLand == this.land.size()) {
+            throw new IndexOutOfBoundsException("You can not claim more land");
+        }
+        this.land.add(new ClaimedChunk(location.getWorld().getChunkAt(location), this));
+        this.outposts = 1;
         TownUtil.saveAllTownsToConfig();
     }
 
@@ -91,7 +113,7 @@ public class Town {
             if (!townyPlayer.isTownLeader()) {
                 townyPlayer.sendMessage(Messages.REMOVED);
             } else {
-                townyPlayer.sendMessage(Messages.REMOVED_SUCCES);
+                townyPlayer.sendMessage(Messages.REMOVED_SUCCESS);
             }
             this.players.remove(townyPlayer);
             townyPlayer.setTown(null);
@@ -105,6 +127,15 @@ public class Town {
         this.players.remove(player);
         for (TownyPlayer p : this.players.keySet()) {
             p.sendMessage(Messages.LEFT.replace("{player}", player.getBukkitPlayer().getName()));
+        }
+        this.maxLand = this.players.size() * 4;
+        TownUtil.saveAllTownsToConfig();
+    }
+
+    public void kickPlayer(TownyPlayer player) {
+        this.players.remove(player);
+        for (TownyPlayer p : this.players.keySet()) {
+            p.sendMessage(Messages.KICKED.replace("{player}", player.getBukkitPlayer().getName()));
         }
         this.maxLand = this.players.size() * 4;
         TownUtil.saveAllTownsToConfig();

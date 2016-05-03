@@ -6,6 +6,7 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class ClaimedChunk {
 
@@ -34,7 +35,7 @@ public class ClaimedChunk {
         claimedChunks.add(this);
     }
 
-    public ClaimedChunk(Chunk chunk, Town town, ChunkPermission permission, PlotType type) throws IllegalArgumentException {
+    public ClaimedChunk(Chunk chunk, Town town, ChunkPermission permission, PlotType type, int price, UUID owner) throws IllegalArgumentException {
         if (chunk.getWorld().getEnvironment() != World.Environment.NORMAL) {
             throw new IllegalArgumentException("You can only claim in the overworld");
         }
@@ -44,6 +45,8 @@ public class ClaimedChunk {
         this.z = chunk.getZ();
         this.permission = permission;
         this.type = type;
+        this.price = price;
+        this.owner = TownyPlayer.getPlayer(owner);
         claimedChunks.add(this);
     }
 
@@ -61,6 +64,11 @@ public class ClaimedChunk {
 
     public void setOwner(TownyPlayer owner) {
         this.owner = owner;
+        if (this.owner != null) {
+            this.permission.setDestroy(false);
+            this.permission.setAccess(false);
+            this.permission.setBuild(false);
+        }
     }
 
     public PlotType getType() {

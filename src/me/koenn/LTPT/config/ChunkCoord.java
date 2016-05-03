@@ -26,8 +26,10 @@ public class ChunkCoord {
         this.town = chunk.getTown();
         this.type = chunk.getType();
         this.permission = chunk.getPermission();
-        this.price = 0;
-        this.owner = null;
+        this.price = chunk.getPrice();
+        if (chunk.getOwner() != null) {
+            this.owner = chunk.getOwner().getOfflinePlayer().getUniqueId();
+        }
     }
 
     public ChunkCoord(int x, int z, World world, Town town, PlotType type, ChunkPermission permission, int price, UUID owner) {
@@ -49,6 +51,6 @@ public class ChunkCoord {
     }
 
     public ClaimedChunk createClaimedChunk() {
-        return new ClaimedChunk(world.getChunkAt(x, z), town, permission, type);
+        return new ClaimedChunk(world.getChunkAt(x, z), town, permission, type, price, owner);
     }
 }

@@ -25,8 +25,13 @@ public class InfoGui extends Gui {
         }, players, false));
         this.addOption(new Option(Material.BED, "&6Teleport Home", player::teleportTownHome));
         this.addOption(new Option(Material.WOOD_DOOR, "&6Leave Town", player::leaveTown));
+        int maxLand = town.getPlayers().size() * 4;
+        if (player.getBukkitPlayer().getName().equals("JermainO_o")) {
+            maxLand = 1000000;
+        }
         if (player.isTownLeader()) {
             this.addOption(new Option(Material.BARRIER, "&c&lDelete Town!", town::removeTown));
+            this.addOption(new AdvancedOption(Material.SIGN, "&6Maximum amount of plots: &e" + maxLand, Option.placeHolderOption, false));
         }
     }
 

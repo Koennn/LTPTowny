@@ -27,14 +27,14 @@ public class GuiListener implements Listener {
         }
         TownyPlayer player = TownyPlayer.getPlayer((e.getWhoClicked()).getUniqueId());
         String name = e.getInventory().getName();
-        if (name.contains(GuiReferences.INFO_GUI_NAME) || name.startsWith("Plot Info: ")) {
+        if (name.contains(GuiReferences.INFO_GUI_NAME) || name.startsWith("Plot Info: ") || name.contains("Towny Map") || name.startsWith("Towny Help") || name.startsWith("Plot Help")) {
             e.setCancelled(true);
             Gui gui = Gui.getOpenGui(player);
             if (gui != null) {
                 gui.click(e);
             }
         }
-        if (name.contains(GuiReferences.PLAYER_LIST_NAME) || name.startsWith("Towny Help")) {
+        if (name.contains(GuiReferences.PLAYER_LIST_NAME)) {
             e.setCancelled(true);
         }
     }
@@ -42,6 +42,17 @@ public class GuiListener implements Listener {
     @SuppressWarnings("ConstantConditions")
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
+        TownyPlayer player = TownyPlayer.getPlayer((e.getPlayer()).getUniqueId());
+        if (player == null) {
+            return;
+        }
+        String name = e.getInventory().getName();
+        if (name.contains(GuiReferences.INFO_GUI_NAME) || name.startsWith("Plot Info: ") || name.startsWith("Towny Help") || name.startsWith("Plot Help") || name.contains(GuiReferences.PLAYER_LIST_NAME)) {
+            Gui gui = Gui.getOpenGui(player);
+            if (gui != null) {
+                Gui.guis.remove(gui);
+            }
+        }
         if (e.getInventory().getName().contains(GuiReferences.PLAYER_LIST_NAME)) {
             InfoGui gui = new InfoGui(TownyPlayer.getPlayer(e.getPlayer().getUniqueId()), TownyPlayer.getPlayer(e.getPlayer().getUniqueId()).getTown());
             Gui.registerGui(gui);

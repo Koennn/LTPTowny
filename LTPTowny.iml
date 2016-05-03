@@ -11,5 +11,6 @@
     <orderEntry type="library" name="Maven: net.md-5:bungeecord-chat:1.9-SNAPSHOT" level="project" />
     <orderEntry type="library" name="EffectLib-4.0" level="project" />
     <orderEntry type="library" name="PermissionsEx-1.23.3" level="project" />
+    <orderEntry type="library" name="Vault" level="project" />
   </component>
 </module>

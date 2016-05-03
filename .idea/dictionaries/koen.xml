@@ -2,12 +2,16 @@
   <dictionary name="koen">
     <words>
       <w>bukkit</w>
+      <w>chunkx</w>
+      <w>chunkz</w>
       <w>coord</w>
       <w>coords</w>
       <w>guis</w>
       <w>overworld</w>
       <w>sethome</w>
       <w>setprice</w>
+      <w>setrank</w>
+      <w>showplots</w>
       <w>succes</w>
       <w>unclaim</w>
     </words>

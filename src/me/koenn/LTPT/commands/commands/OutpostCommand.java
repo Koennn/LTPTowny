@@ -7,16 +7,16 @@ import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.ChunkUtil;
 
-public class ClaimCommand implements ITownyCommand {
+public class OutpostCommand implements ITownyCommand {
 
     @Override
     public String getCommand() {
-        return "claim";
+        return "outpost";
     }
 
     @Override
     public String getUsage() {
-        return "/town claim";
+        return "/town outpost";
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -30,13 +30,9 @@ public class ClaimCommand implements ITownyCommand {
             player.sendMessage(Messages.NO_PERMS);
             return true;
         }
-        if (ChunkUtil.isClaimed(player.getLocation())) {
-            player.sendMessage(Messages.ALREADY_CLAIMED.replace("{town}", ChunkUtil.getClaimedChunk(player.getLocation()).getTown().getName()));
-            return true;
-        }
         try {
             try {
-                player.getTown().claimChunkAt(player);
+                player.getTown().claimOutpostAt(player);
             } catch (IndexOutOfBoundsException ex) {
                 player.sendMessage(Messages.CLAIM_LIMIT.replace("{amount}", String.valueOf(player.getTown().getLand().size())));
                 return true;

@@ -10,8 +10,8 @@ public class ChunkPermission {
     private boolean pvp;
 
     public ChunkPermission() {
-        this.build = true;
-        this.destroy = true;
+        this.build = false;
+        this.destroy = false;
         this.access = true;
         this.pvp = false;
     }
@@ -91,9 +91,9 @@ public class ChunkPermission {
 
     public String getPvp() {
         if (this.pvp) {
-            return "On";
+            return "Allow";
         } else {
-            return "Off";
+            return "Deny";
         }
     }
 
@@ -104,9 +104,9 @@ public class ChunkPermission {
 
     public String getBuild() {
         if (this.build) {
-            return "On";
+            return "Allow";
         } else {
-            return "Off";
+            return "Deny";
         }
     }
 
@@ -117,9 +117,9 @@ public class ChunkPermission {
 
     public String getDestroy() {
         if (this.destroy) {
-            return "On";
+            return "Allow";
         } else {
-            return "Off";
+            return "Deny";
         }
     }
 

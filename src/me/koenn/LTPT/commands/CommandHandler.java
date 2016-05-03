@@ -66,7 +66,12 @@ public class CommandHandler implements CommandExecutor {
         this.register(new HelpCommand());
         this.register(new OverlayCommand());
         this.register(new ChatCommand());
+        this.register(new ShowPlotsCommand());
         this.register(new SaveCommand());
+        this.register(new SetRankCommand());
+        this.register(new KickCommand());
+        this.register(new OutpostCommand());
+        this.register(new MapCommand());
         Logger.info("Loaded " + commandsAmount + " commands.");
     }
 

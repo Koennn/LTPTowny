@@ -34,7 +34,11 @@ public abstract class Gui {
 
     public static Gui getOpenGui(TownyPlayer player) {
         for (Gui gui : guis) {
-            if (gui.getPlayer().getBukkitPlayer().getUniqueId().equals(player.getBukkitPlayer().getUniqueId())) {
+            if (!gui.getPlayer().isOnline()) {
+                guis.remove(gui);
+                continue;
+            }
+            if (gui.getPlayer().getOfflinePlayer().getUniqueId().equals(player.getOfflinePlayer().getUniqueId())) {
                 return gui;
             }
         }

@@ -6,6 +6,7 @@ import me.koenn.LTPT.references.GuiReferences;
 import me.koenn.LTPT.towny.Town;
 import me.koenn.LTPT.util.AdvancedOption;
 import me.koenn.LTPT.util.Option;
+import me.koenn.LTPT.util.Util;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -15,7 +16,7 @@ import static org.bukkit.ChatColor.translateAlternateColorCodes;
 public class PlayerListGui extends Gui {
 
     public PlayerListGui(TownyPlayer player) {
-        super(player, GuiReferences.PLAYER_LIST_NAME);
+        super(player, GuiReferences.PLAYER_LIST_NAME, Util.getGuiSize(player.getTown().getPlayers().size()));
         Town town = player.getTown();
         String leader = town.getLeader().getOfflinePlayer().getName();
         ItemStack lskull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);

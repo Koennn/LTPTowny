@@ -18,10 +18,28 @@ public class ChunkUtil {
         return false;
     }
 
+    public static boolean isClaimed(Chunk chunk) {
+        for (ClaimedChunk claimedChunk : ClaimedChunk.claimedChunks) {
+            if (claimedChunk.getX() == chunk.getX() && claimedChunk.getZ() == chunk.getZ()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static ClaimedChunk getClaimedChunk(Location location) {
         Chunk chunk = location.getWorld().getChunkAt(location);
         for (ClaimedChunk claimedChunk : ClaimedChunk.claimedChunks) {
             if (claimedChunk.getX() == chunk.getX() && claimedChunk.getZ() == chunk.getZ()) {
+                return claimedChunk;
+            }
+        }
+        return null;
+    }
+
+    public static ClaimedChunk getClaimedChunk(int chunkx, int chunkz) {
+        for (ClaimedChunk claimedChunk : ClaimedChunk.claimedChunks) {
+            if (claimedChunk.getX() == chunkx && claimedChunk.getZ() == chunkz) {
                 return claimedChunk;
             }
         }

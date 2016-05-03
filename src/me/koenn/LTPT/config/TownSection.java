@@ -58,7 +58,7 @@ public class TownSection {
             ChunkPermission permission;
             permission = new ChunkPermission(Boolean.valueOf(split[5].toUpperCase()), Boolean.valueOf(split[6].toUpperCase()), Boolean.valueOf(split[7].toUpperCase()), Boolean.valueOf(split[8].toUpperCase()));
             UUID owner = null;
-            if (!split[10].equals("null")) {
+            if (!split[10].contains("null")) {
                 owner = UUID.fromString(split[10]);
             }
             chunkCoords.add(new ChunkCoord(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Bukkit.getWorld(split[2]), town, PlotType.valueOf(split[4].toUpperCase()), permission, Integer.parseInt(split[9]), owner));

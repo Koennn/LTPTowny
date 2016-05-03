@@ -1,8 +1,12 @@
 package me.koenn.LTPT.listeners;
 
+import me.koenn.LTPT.LTPTowny;
 import me.koenn.LTPT.player.TownyPlayer;
+import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.towny.Town;
+import me.koenn.LTPT.util.ExpUtil;
 import me.koenn.LTPT.util.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,6 +38,8 @@ public class PlayerJoinListener implements Listener {
             }
             if (player.getBukkitPlayer().getUniqueId().equals(e.getPlayer().getUniqueId())) {
                 Logger.debug("Loaded existing playerData for player " + e.getPlayer().getName());
+                Bukkit.getScheduler().scheduleSyncDelayedTask(LTPTowny.plugin, () -> player.sendMessage(Messages.WARN), 10);
+                startExpCheck(player);
                 return;
             }
         }
@@ -44,11 +50,22 @@ public class PlayerJoinListener implements Listener {
                 }
                 if (player.getBukkitPlayer().getUniqueId().equals(e.getPlayer().getUniqueId())) {
                     Logger.debug("Loaded existing playerData for player " + e.getPlayer().getName());
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(LTPTowny.plugin, () -> player.sendMessage(Messages.WARN), 10);
+                    startExpCheck(player);
                     return;
                 }
             }
         }
         Logger.debug("Creating new playerData for player" + e.getPlayer().getName());
-        new TownyPlayer(e.getPlayer().getUniqueId());
+    }
+
+    private void startExpCheck(TownyPlayer player) {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(LTPTowny.plugin, () -> {
+            if (player.isOnline()) {
+                if (ExpUtil.getTotalExperience(player.getBukkitPlayer()) > 0) {
+                    player.getBukkitPlayer().setAllowFlight(true);
+                }
+            }
+        }, 0, 10);
     }
 }

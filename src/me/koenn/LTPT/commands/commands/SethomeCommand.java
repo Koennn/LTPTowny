@@ -23,7 +23,7 @@ public class SethomeCommand implements ITownyCommand {
             player.sendMessage(Messages.NO_TOWN);
             return true;
         }
-        if (!player.isTownLeader()) {
+        if (player.getRankValue() < 2) {
             player.sendMessage(Messages.NO_PERMS);
             return true;
         }

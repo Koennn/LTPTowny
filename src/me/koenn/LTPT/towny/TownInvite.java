@@ -35,8 +35,6 @@ public class TownInvite {
 
     public void send() {
         String message = Messages.INVITE.replace("{player}", this.invitedBy.getBukkitPlayer().getName()).replace("{town}", this.town.getName());
-        Logger.debug("Player: " + this.invitedPlayer);
-        Logger.debug("Player: " + this.invitedPlayer.toString().split("@")[1]);
         this.invitedPlayer.sendMessage(message);
         this.invitedPlayer.addInvite(this);
         this.invitedBy.sendMessage(Messages.INVITED.replace("{player}", this.invitedPlayer.getBukkitPlayer().getName()));

@@ -1,31 +1,29 @@
 package me.koenn.LTPT.commands.commands.plotcommands;
 
+import me.koenn.LTPT.LTPTowny;
 import me.koenn.LTPT.chunk.ClaimedChunk;
 import me.koenn.LTPT.chunk.PlotType;
 import me.koenn.LTPT.player.TownyPlayer;
 import me.koenn.LTPT.references.Messages;
 import me.koenn.LTPT.util.ChunkUtil;
 
-public class SetPriceCommand implements IPlotCommand {
+public class BuyCommand implements IPlotCommand {
 
     @Override
     public String getCommand() {
-        return "setprice";
+        return "buy";
     }
 
     @Override
     public String getUsage() {
-        return "/t plot setprice <price>";
+        return "/town plot buy";
     }
 
     @Override
     public boolean execute(TownyPlayer player, String[] args) {
-        if (player.getRankValue() < 2) {
-            player.sendMessage(Messages.NO_PERMS);
+        if (!ChunkUtil.isClaimed(player.getLocation())) {
+            player.sendMessage(Messages.NOT_CLAIMED);
             return true;
-        }
-        if (args.length < 3) {
-            return false;
         }
         ClaimedChunk chunk = ChunkUtil.getClaimedChunk(player.getLocation());
         if (chunk == null) {
@@ -40,14 +38,15 @@ public class SetPriceCommand implements IPlotCommand {
             player.sendMessage(Messages.NOT_FOR_SALE);
             return true;
         }
-        int price;
-        try {
-            price = Integer.parseInt(args[2]);
-        } catch (NumberFormatException ex) {
-            return false;
+        if (LTPTowny.econ.getBalance(player.getBukkitPlayer()) < chunk.getPrice()) {
+            player.sendMessage(Messages.NOT_ENOUGH_MONEY.replace("{amount}", String.valueOf(chunk.getPrice())));
+            return true;
         }
-        chunk.setPrice(price);
-        player.sendMessage(Messages.SET_PRICE.replace("{price}", String.valueOf(price)));
+        LTPTowny.econ.withdrawPlayer(player.getBukkitPlayer(), chunk.getPrice());
+        LTPTowny.econ.depositPlayer(player.getTown().getLeader().getOfflinePlayer(), chunk.getPrice());
+        chunk.setOwner(player);
+        chunk.setType(PlotType.SOLD);
+        player.sendMessage(Messages.BOUGHT_PLOT);
         return true;
     }
 }

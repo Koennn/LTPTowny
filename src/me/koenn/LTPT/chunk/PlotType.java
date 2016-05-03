@@ -2,7 +2,7 @@ package me.koenn.LTPT.chunk;
 
 public enum PlotType {
 
-    NORMAL("Normal"), FOR_SALE("For Sale"), SHOP("Shop"), EMBASSY("Embassy");
+    NORMAL("Normal"), FOR_SALE("For Sale"), SHOP("Shop"), EMBASSY("Embassy"), SOLD("Sold");
 
     String string;
 
